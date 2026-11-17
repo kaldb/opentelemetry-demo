@@ -165,7 +165,7 @@ def prepare_state():
         "opensearch_security.multitenancy.tenants.enable_global": True,
         "opensearch_security.multitenancy.tenants.enable_private": False,
         "opensearch_security.multitenancy.tenants.preferred": ["team_a", "team_b"],
-        "opensearch_security.readonly_mode.roles": ["demo_user1", "demo_user2"],
+        "opensearch_security.readonly_mode.roles": [],
         "opensearch_security.cookie.secure": False,
         "home.disableWelcomeScreen": True,
         "home.disableNewThemeModal": True,

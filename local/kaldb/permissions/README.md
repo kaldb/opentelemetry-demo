@@ -100,12 +100,11 @@ POST permissions-demo-private/_search
 
 As user 2, `POST permissions-demo-private/_search` succeeds; adding
 `{"query":{"term":{"secret":"PRIVATE_B_SENTINEL"}}}` fails with HTTP 403.
-The automated UI check exercises this same Console proxy using browser cookies.
-The native read-only UI mode can hide Dev Tools for data users; in that case,
-use the browser-mediated automated check, or temporarily omit the
-`opensearch_security.readonly_mode.roles` setting to expose Console. This
-display setting never grants data permissions. Admin can always use Console
-to change the real role, for example:
+Dev Tools is enabled for both demo users. Their native tenant permissions keep
+saved dashboards read-only, and their native index/FLS permissions still govern
+every data request. The automated UI check opens the actual Console application
+for each user, verifies field discovery, and exercises allowed/denied requests
+using browser cookies. Admin can use Console to change the real role, for example:
 
 ```http
 PUT _plugins/_security/api/roles/demo_user1

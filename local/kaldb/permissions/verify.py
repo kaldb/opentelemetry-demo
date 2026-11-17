@@ -102,9 +102,20 @@ def ui_checks():
             require(other_title + " — Security demo" not in driver.find_element(By.TAG_NAME, "body").text,
                     user + " dashboard list exposed another tenant")
             driver.save_screenshot(str(screenshots / (user + "-dashboard-list.png")))
-            # Stop dashboard background searches before comparing recorder counters.
-            driver.get(DASHBOARDS_URL + "/status")
-            time.sleep(0.5)
+            driver.get(DASHBOARDS_URL + "/app/dev_tools#/console")
+            wait.until(lambda d: any(label in d.find_element(By.TAG_NAME, "body").text
+                                    for label in ("Console", "Application Not Found")))
+            console_text = driver.find_element(By.TAG_NAME, "body").text
+            require("Console" in console_text and "Application Not Found" not in console_text,
+                    user + " cannot open the actual Dev Tools Console application")
+            driver.save_screenshot(str(screenshots / (user + "-console.png")))
+            print("PASS UI " + user + " can open Dev Tools Console", flush=True)
+            caps = fetch(driver, console_path(dataset + "/_field_caps?fields=*", "GET"), "POST", tenant=tenant)
+            require(caps["status"] == 200 and "body" in json.loads(caps["text"]).get("fields", {}),
+                    user + " Console field discovery failed")
+            if user == "user2":
+                require("secret" not in caps["text"] and "customer.email" not in caps["text"],
+                        "User 2 Console field discovery exposed excluded fields")
             own = fetch(driver, console_path(dataset + "/_search", "POST"), "POST", {"size": 10}, tenant)
             require(own["status"] == 200 and marker in own["text"], user + " Dev Tools positive control failed")
             before = recorder_calls()["count"]
