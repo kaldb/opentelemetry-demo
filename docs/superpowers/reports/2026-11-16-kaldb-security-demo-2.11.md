@@ -5,7 +5,7 @@ The two-user demo passed with actual KalDB data and native OpenSearch/Dashboards
 Nothing was merged; 3.9 remains parked.
 
 - Gateway source: [KalDB review branch](https://github.com/kaldb/kaldb/tree/codex/security-demo-2.11-review), tested gateway commit `b23b4b8f`.
-- Demo and [walkthrough](../../../local/kaldb/permissions/README.md): [OTel review branch](https://github.com/mansu/opentelemetry-demo/tree/codex/security-demo-2.11-review).
+- Demo and [walkthrough](../../../local/kaldb/permissions/README.md): [OTel review branch](https://github.com/kaldb/opentelemetry-demo/tree/codex/security-demo-2.11-review).
 - Java gateway: `mvn -q -f contrib/dashboards-gateway/pom.xml package` passed **34/34** tests.
 - `verify.py all` passed the qualified native gate, **50/50 API cases**, and real Chrome checks for both dashboard users and an admin.
 - Both users rendered only their own dashboard and actual fixture rows. Cross-index and hidden-field data requests returned HTTP403 with **zero KalDB calls**. Tenant forgery could not retrieve the other dashboard.
